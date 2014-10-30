@@ -23,9 +23,10 @@ public class BookService {
     public Response getBucket(@PathParam("name") String name) {
         log.debug("name : " + name);
         BookVO bookVO = null;
+
         try {
-            bookVO = BookDB.getInstance().getBook(URLDecoder.decode(name, "UTF-8"));
-        } catch (UnsupportedEncodingException e) {
+            bookVO = BookDB.getInstance().getBook(name);
+        } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
