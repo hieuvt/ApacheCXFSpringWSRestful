@@ -41,6 +41,13 @@
             <version>${cxf.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+
+
         <!-- log sl4j with log4j-->
         <dependency>
             <groupId>org.slf4j</groupId>
