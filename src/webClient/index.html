@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head lang="en">
+    <title>Angular Client</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script>
+        var app = angular.module("myApp", []);
+
+        app.controller("collectBookData", function($scope, $http) {
+            alert("collecting...");
+            $http.get('http://localhost:8080/bookservice/getbook/book%231').
+                    success(function (data) {
+                alert("collected");
+                        $scope.debug = 'SUCCESS:' + JSON.stringify(data);
+            }).error(function (data, status, headers, config) {
+                        console.log(status);
+                        console.log(data);
+                        console.log(headers);
+                        console.log(config);
+            });
+        });
+    </script>
+</head>
+<body>
+<div ng-controller="collectBookData">
+    <p>{{debug}}</p>
+</div>
+</body>
+</html>
