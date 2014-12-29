@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
 <head lang="en">
-    <title>Angular Client</title>
+    <title>Angular-http Client</title>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
     <script>
         var app = angular.module("myApp", []);
 
         app.controller("collectBookData", function($scope, $http) {
-            alert("collecting...");
             $http.get('http://localhost:8080/bookservice/getbook/book%231').
-                    success(function (data) {
-                alert("collected");
-                        $scope.debug = 'SUCCESS:' + JSON.stringify(data);
+                    success(function (response) {
+//                        $scope.debug = JSON.stringify(data);
+                        $scope.debug = response;
             }).error(function (data, status, headers, config) {
                         console.log(status);
                         console.log(data);
@@ -23,7 +22,7 @@
 </head>
 <body>
 <div ng-controller="collectBookData">
-    <p>{{debug}}</p>
+    <p>{{debug.bookName}}</p>
 </div>
 </body>
 </html>
