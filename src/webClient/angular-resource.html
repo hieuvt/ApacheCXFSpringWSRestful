@@ -7,17 +7,30 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-resource.min.js"></script>
     <script>
         var app = angular.module("myApp", ["ngResource"]);
-        app.factory("Book", function ($resource) {
+        app.factory("Book", function ($resource, $q) {
             var settings = {};
             var bookResource = $resource(
                     "http://localhost:8080/bookservice/getbook/book%231"
             );
 
+            settings.get = function(){
+                var deferredObject = $q.defer();
+                bookResource.get().$promise.then(function(result) {
+                    deferredObject.resolve(result);
+                }, function(errorMsg) {
+                    deferredObject.reject(errorMsg);
+                });
+                return deferredObject.promise;
+            }
 
-            return bookResource;
+            return settings;
         });
         app.controller("collectBookData", function($scope, Book, $timeout){
-            $scope.books = Book.get();
+            Book.get().then(function( result ) {
+                $scope.book = result;
+            }, function(error) {
+                alert("failed");
+            });;
 
 
         });
@@ -25,13 +38,14 @@
 </head>
 <body>
 <div ng-controller="collectBookData">
-    <table>
+    {{book.bookName}}
+   <!-- <table>
         <tr ng-repeat="book in books">
             <td></td>
-            <td>{{book}}</td>
+            <td>{{book.bookName}}</td>
             <td></td>
         </tr>
-    </table>
+    </table>-->
 </div>
 </body>
 </html>

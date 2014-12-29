@@ -10,6 +10,7 @@
             $http.get('http://localhost:8080/bookservice/getbook/book%231').
                     success(function (response) {
 //                        $scope.debug = JSON.stringify(data);
+                        alert(JSON.stringify(response));
                         $scope.debug = response;
             }).error(function (data, status, headers, config) {
                         console.log(status);
