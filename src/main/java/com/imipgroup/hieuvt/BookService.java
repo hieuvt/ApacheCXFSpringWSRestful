@@ -9,6 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.List;
 
 /**
  * Created by hieu.vutrong on 10/28/2014.
@@ -41,4 +42,22 @@ public class BookService {
                     .build();
         }
     }
+
+    @GET
+    @Path("/getAllBooks")
+    @Produces({"application/json"})
+    @Consumes({"application/xml","application/json","application/x-www-form-urlencoded"})
+    public Response getAllBooks(){
+        System.out.println("Collecting book list");
+        List<BookVO> bookVOs = BookDB.getInstance().getBooks();
+        if(bookVOs == null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }else {
+            System.out.println(bookVOs.size());
+            return Response.ok(bookVOs)
+                    .header(CorsHeaderConstants.HEADER_AC_ALLOW_ORIGIN, "*")
+                    .build();
+        }
+    }
+
 }

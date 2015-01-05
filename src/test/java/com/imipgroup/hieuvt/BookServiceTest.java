@@ -18,11 +18,10 @@ public class BookServiceTest extends TestCase {
                 + " encoding=" + "\"" + "UTF-8" + "\"" + " standalone=" + "\""
                 + "yes" + "\"" + "?><Book><author>author#1</author><bookId>0</bookId><bookName>book#1</bookName></Book>";
         try {
-            String url = "http://localhost:8080/bookservice/getbook/";
-
-            url = url + URLEncoder.encode(bookName, "UTF-8");
+//            String url = "http://localhost:8080/bookservice/getbook/";
+//            url = url + URLEncoder.encode(bookName, "UTF-8");
+            String url = "http://localhost:8080/bookservice/getAllBooks";
             System.out.println(url);
-
             HttpClient client = new HttpClient();
 
 //            PostMethod mPost = new PostMethod(url);
