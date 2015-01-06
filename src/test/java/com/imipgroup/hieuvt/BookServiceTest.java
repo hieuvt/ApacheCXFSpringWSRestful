@@ -13,15 +13,16 @@ public class BookServiceTest extends TestCase {
     public void testGetBucket() throws Exception {
 
         String output = null;
-        String bookName = "book#1";
+        int bookId = 1;
         String expectedOutput = "<?xml version=" + "\"" + "1.0" + "\""
                 + " encoding=" + "\"" + "UTF-8" + "\"" + " standalone=" + "\""
                 + "yes" + "\"" + "?><Book><author>author#1</author><bookId>0</bookId><bookName>book#1</bookName></Book>";
         try {
-//            String url = "http://localhost:8080/bookservice/getbook/";
-//            url = url + URLEncoder.encode(bookName, "UTF-8");
-            String url = "http://localhost:8080/bookservice/getAllBooks";
-            System.out.println(url);
+            String url = "http://localhost:8080/bookservice/getbook/";
+//            url = url + URLEncoder.encode(bookId, "UTF-8");
+            url = url + bookId;
+//            String url = "http://localhost:8080/bookservice/getAllBooks";
+//            System.out.println(url);
             HttpClient client = new HttpClient();
 
 //            PostMethod mPost = new PostMethod(url);

@@ -10,15 +10,15 @@ import java.io.Serializable;
 @XmlRootElement(name="Book")
 public class BookVO implements Serializable{
 
-    private long bookId;
+    private int bookId;
     private String bookName;
     private String author;
 
-    public long getBookId() {
+    public int getBookId() {
         return bookId;
     }
 
-    public void setBookId(long bucketId) {
+    public void setBookId(int bookId) {
         this.bookId = bookId;
     }
 

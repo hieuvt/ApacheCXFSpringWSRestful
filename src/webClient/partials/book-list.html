@@ -1,52 +1,20 @@
-<!DOCTYPE html>
-<html ng-app="myApp">
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>Angular-resource Client</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-resource.min.js"></script>
-    <!--<script src="../js/tmp.js"></script>-->
-    <script>
-        var app = angular.module("myApp", ["ngResource"]);
-        app.factory("Book", function ($resource, $q) {
-            var settings = {};
-            var bookResource = $resource(
-                    "http://localhost:8080/bookservice/getAllBooks"
-            );
+<table>
+    <thead>
+    <tr>
+        <th>Book name</th>
+        <th>Author name</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="book in books">
+        <td>{{book.bookName}}</td>
+        <td>{{book.author}}</td>
+        <td><a ng-click="editBook(book.bookId)">Edit</a></td>
+        <td><a ng-click="deleteBook(book.bookId)">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+<a ng-click="createNewBook()" >Create new book</a>
 
-            settings.query = function(){
-                var deferredObject = $q.defer();
-                bookResource.query().$promise.then(function(result) {
-                    deferredObject.resolve(result);
-                }, function(errorMsg) {
-                    deferredObject.reject(errorMsg);
-                });
-                return deferredObject.promise;
-            }
-
-            return settings;
-        });
-        app.controller("collectBookData", function($scope, Book, $timeout){
-            Book.query().then(function( result ) {
-                $scope.books = result;
-            }, function(error) {
-            });;
-
-
-        });
-    </script>
-</head>
-<body>
-<script src="../js/tmp.js"></script>
-<div ng-controller="collectBookData">
-
-     <table>
-        <tr ng-repeat="book in books">
-            <td></td>
-            <td>{{book.bookName}}</td>
-            <td></td>
-        </tr>
-    </table>
-</div>
-</body>
-</html>

@@ -26,9 +26,19 @@ public class BookDB {
         }
     }
 
-    public BookVO getBook(String bookName){
+    public BookVO getBookByName(String bookName){
         for (BookVO book: books){
             if (book.getBookName().equals(bookName)){
+                return book;
+            }
+        }
+        return null;
+    }
+
+    public BookVO getBook(int bookId){
+        for (BookVO book: getBooks()){
+            System.out.println(book.getBookId());
+            if (book.getBookId() == bookId){
                 return book;
             }
         }

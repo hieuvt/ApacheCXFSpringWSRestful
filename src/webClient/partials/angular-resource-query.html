@@ -5,18 +5,18 @@
     <title>Angular-resource Client</title>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-resource.min.js"></script>
+    <!--<script src="../js/tmp.js"></script>-->
     <script>
         var app = angular.module("myApp", ["ngResource"]);
         app.factory("Book", function ($resource, $q) {
             var settings = {};
             var bookResource = $resource(
-                    "http://localhost:8080/bookservice/getbook/:bookId",
-                    {bookId: '@id'}
+                    "http://localhost:8080/bookservice/getAllBooks"
             );
 
-            settings.get = function(id){
+            settings.query = function(){
                 var deferredObject = $q.defer();
-                bookResource.get({bookId: id}).$promise.then(function(result) {
+                bookResource.query().$promise.then(function(result) {
                     deferredObject.resolve(result);
                 }, function(errorMsg) {
                     deferredObject.reject(errorMsg);
@@ -27,8 +27,8 @@
             return settings;
         });
         app.controller("collectBookData", function($scope, Book, $timeout){
-            Book.get('1').then(function( result ) {
-                $scope.book = result;
+            Book.query().then(function( result ) {
+                $scope.books = result;
             }, function(error) {
             });;
 
@@ -37,8 +37,16 @@
     </script>
 </head>
 <body>
+<script src="../js/tmp.js"></script>
 <div ng-controller="collectBookData">
-    {{book.bookName}}
+
+     <table>
+        <tr ng-repeat="book in books">
+            <td></td>
+            <td>{{book.bookName}}</td>
+            <td></td>
+        </tr>
+    </table>
 </div>
 </body>
 </html>
