@@ -19,7 +19,7 @@
 
     <bean id="bookserviceclass" class="com.imipgroup.hieuvt.BookService"/>
 
-    <!--<bean id="cors-filter" class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter"/>-->
+    <bean id="cors-filter" class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter"/>
     <bean id="jacksonJsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider" />
 
     <jaxrs:server id="bookservice" address="/bookservice">
@@ -27,10 +27,13 @@
             <ref bean="bookserviceclass" />
         </jaxrs:serviceBeans>
         <jaxrs:providers>
-            <!--<ref bean="cors-filter" />-->
+            <ref bean="cors-filter" />
             <ref bean="jacksonJsonProvider" />
         </jaxrs:providers>
     </jaxrs:server>
+
+
+
 
 
 

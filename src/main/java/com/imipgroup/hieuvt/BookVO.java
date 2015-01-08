@@ -14,6 +14,16 @@ public class BookVO implements Serializable{
     private String bookName;
     private String author;
 
+    public BookVO(){
+
+    }
+
+    public BookVO (int bookId, String bookName, String author){
+        setBookId(bookId);
+        setBookName(bookName);
+        setAuthor(author);
+    }
+
     public int getBookId() {
         return bookId;
     }

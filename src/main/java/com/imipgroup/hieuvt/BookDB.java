@@ -18,10 +18,7 @@ public class BookDB {
     public BookDB() {
         setBooks(new ArrayList<BookVO>());
         for(int i = 0; i < 5; i++){
-            BookVO book = new BookVO();
-            book.setBookId(i);
-            book.setBookName("book#" + i);
-            book.setAuthor("author#" + i);
+            BookVO book = new BookVO(i, "book#" + i, "author#" + i);
             getBooks().add(book);
         }
     }
@@ -43,6 +40,12 @@ public class BookDB {
             }
         }
         return null;
+    }
+
+    public BookVO createNewBook(BookVO bookVO){
+        bookVO.setBookId(getBooks().size());
+        getBooks().add(bookVO);
+        return bookVO;
     }
 
     public List<BookVO> getBooks() {

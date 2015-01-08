@@ -6,7 +6,7 @@ angular.module('ngClient.services', ['ngResource'])
     .factory("Book", function ($resource, $q) {
         var settings = {};
         var bookResource = $resource(
-            "http://localhost:8080/bookservice/getAllBooks"
+            "http://localhost:8080/bookservice/books"
         );
 
         settings.query = function(){

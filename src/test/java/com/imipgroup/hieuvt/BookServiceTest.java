@@ -4,25 +4,16 @@ import junit.framework.TestCase;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-
-import java.net.URLEncoder;
 
 public class BookServiceTest extends TestCase {
 
-    public void testGetBucket() throws Exception {
+    String quote = "\"";
+    static final String url = "http://localhost:8080/bookservice/books/";
 
+    private String executeURL(String url) {
         String output = null;
-        int bookId = 1;
-        String expectedOutput = "<?xml version=" + "\"" + "1.0" + "\""
-                + " encoding=" + "\"" + "UTF-8" + "\"" + " standalone=" + "\""
-                + "yes" + "\"" + "?><Book><author>author#1</author><bookId>0</bookId><bookName>book#1</bookName></Book>";
         try {
-            String url = "http://localhost:8080/bookservice/getbook/";
-//            url = url + URLEncoder.encode(bookId, "UTF-8");
-            url = url + bookId;
-//            String url = "http://localhost:8080/bookservice/getAllBooks";
-//            System.out.println(url);
+
             HttpClient client = new HttpClient();
 
 //            PostMethod mPost = new PostMethod(url);
@@ -48,10 +39,25 @@ public class BookServiceTest extends TestCase {
             output = mGet.getResponseBodyAsString();
             mGet.releaseConnection();
 
-           System.out.println(output);
+            System.out.println(output);
 //            assertEquals(output,expectedOutput);
         } catch (Exception e) {
-            throw new Exception("Exception in retriving group page info : " + e);
+            e.printStackTrace();
         }
+        return output;
+    }
+
+    public void testGetBucket() throws Exception {
+
+        int bookId = 1;
+        String expectedOutput = "{" + quote + "bookId" + quote + ":1," + quote + "bookName" + quote + ":" + quote + "book#1" + quote + "," + quote + "author" + quote + ":" + quote + "author#1" + quote + "}";
+//            url = url + URLEncoder.encode(bookId, "UTF-8");
+        String tmpUrl = url + bookId;
+        assertEquals(expectedOutput, executeURL(tmpUrl));
+    }
+
+    public void testGetAllBooks() throws Exception {
+        String expectedOutput = "";
+        executeURL(url);
     }
 }

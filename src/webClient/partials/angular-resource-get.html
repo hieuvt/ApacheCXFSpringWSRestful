@@ -10,7 +10,7 @@
         app.factory("Book", function ($resource, $q) {
             var settings = {};
             var bookResource = $resource(
-                    "http://localhost:8080/bookservice/getbook/:bookId",
+                    "http://localhost:8080/bookservice/books/:bookId",
                     {bookId: '@id'}
             );
 
