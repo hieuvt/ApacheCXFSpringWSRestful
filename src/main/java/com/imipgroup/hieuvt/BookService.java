@@ -2,10 +2,13 @@ package com.imipgroup.hieuvt;
 
 import org.apache.cxf.rs.security.cors.CorsHeaderConstants;
 import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
+import org.apache.cxf.rs.security.cors.LocalPreflight;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -16,14 +19,18 @@ import java.util.List;
         allowAllOrigins = true
 )
 @Path("/books")
+@Produces({"application/json"})
+@Consumes({"application/xml", "application/json", "application/x-www-form-urlencoded"})
+
 public class BookService {
 
+    @Context
+    private HttpHeaders headers;
     protected final Logger log = LoggerFactory.getLogger(BookService.class);
 
     @GET
     @Path("{id}")
-    @Produces({"application/json"})
-    @Consumes({"application/xml","application/json","application/x-www-form-urlencoded"})
+
 /*    public Response getBucket(@PathParam("id") String id) {
         log.debug("id : " + id);
         Integer bookId = new Integer(id);
@@ -56,22 +63,11 @@ public class BookService {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-/*        if(bookVO == null){
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }else{
-            System.out.println(bookVO.getBookName());
-            return Response.ok(bookVO)
-                    .header(CorsHeaderConstants.HEADER_AC_ALLOW_ORIGIN, "*")
-                    .build();
-        }
-        System.out.println(bookVO.getBookName());*/
         return bookVO;
     }
 
     @GET
-    @Produces({"application/json"})
-    @Consumes({"application/xml","application/json","application/x-www-form-urlencoded"})
-    public List<BookVO> getAllBooks(){
+    public List<BookVO> getAllBooks() {
 /*        List<BookVO> bookVOs = BookDB.getInstance().getBooks();
         if(bookVOs == null){
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -84,14 +80,37 @@ public class BookService {
     }
 
     @POST
-    @Path("{id}")
-    @Produces({"application/json"})
-    @Consumes({"application/xml","application/json","application/x-www-form-urlencoded"})
-    public BookVO createBook(BookVO bookVO){
+    /*public BookVO createBook(@FormParam("bookName") String bookName,
+                             @FormParam("author") String author){
+        BookVO bookVO = new BookVO();
+        bookVO.setBookName(bookName);
+        bookVO.setAuthor(author);
+        return BookDB.getInstance().createNewBook(bookVO);
+    }*/
+
+    public BookVO createBook(BookVO bookVO) {
         return BookDB.getInstance().createNewBook(bookVO);
     }
 
-/*    need book without bookId to be passed. BookId will be added in bookDB.createNewBook (need to modified)
-    need check how Angular pass object to backend*/
+    @PUT
+    public BookVO updateBookInfo(BookVO bookVO) {
+        return BookDB.getInstance().updateBookInfo(bookVO);
+    }
+
+    @DELETE
+    @Path("{id}")
+    public List<BookVO> removeBook(@PathParam("id") String id) {
+        Integer bookId = new Integer(id);
+        return BookDB.getInstance().removeBook(bookId);
+    }
+
+/*    public Response removeBook(@PathParam("id") String id) {
+        Integer bookId = new Integer(id);
+        return Response.ok(BookDB.getInstance().removeBook(bookId))
+                .header(CorsHeaderConstants.HEADER_AC_ALLOW_METHODS, "DELETE PUT")
+                .header(CorsHeaderConstants.HEADER_AC_ALLOW_ORIGIN, "*")
+                .build();
+    }*/
+
 
 }

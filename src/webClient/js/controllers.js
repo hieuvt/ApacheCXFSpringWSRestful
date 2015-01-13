@@ -4,13 +4,29 @@
 
 angular.module('ngClient.controllers', ["ngResource"])
 
-
-    .controller("CollectBook", function($scope, Book){
-        Book.query().then(function( result ) {
+    .controller("BookCtrl", function ($scope, Books, Book, $location, $window) {
+        Books.query().then(function (result) {
             $scope.books = result;
-        }, function(error) {
+        }, function (error) {
             $scope.errorMess = JSON.stringify(error);
         });
 
+        $scope.editBook = function (bookId) {
+            $location.path('/book-detail/' + bookId);
+        }
 
+        $scope.deleteBook = function (bookId) {
+            Book.delete(bookId).then(function (result) {
+                $scope.books = result;
+            }, function (error) {
+                $scope.errorMess = JSON.stringify(error);
+            });
+        }
+    })
+
+    .controller("BookDetailCtrl", function ($scope, Book){
+        Book.get('0').then(function( result ) {
+            $scope.book = result;
+        }, function(error) {
+        });
     })

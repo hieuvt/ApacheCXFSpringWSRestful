@@ -34,7 +34,6 @@ public class BookDB {
 
     public BookVO getBook(int bookId){
         for (BookVO book: getBooks()){
-            System.out.println(book.getBookId());
             if (book.getBookId() == bookId){
                 return book;
             }
@@ -43,9 +42,35 @@ public class BookDB {
     }
 
     public BookVO createNewBook(BookVO bookVO){
-        bookVO.setBookId(getBooks().size());
+        int maxBookId = Integer.MIN_VALUE;
+        for (BookVO book: getBooks()){
+            if (maxBookId < book.getBookId()){
+                maxBookId = book.getBookId();
+            }
+        }
+        bookVO.setBookId(maxBookId + 1);
         getBooks().add(bookVO);
         return bookVO;
+    }
+
+    public BookVO updateBookInfo(BookVO bookVO){
+        for (BookVO book: getBooks()){
+            if (book.getBookId() == bookVO.getBookId()){
+                book.setAuthor(bookVO.getAuthor());
+                book.setBookName(bookVO.getBookName());
+                return book;
+            }
+        }
+        return null;
+    }
+
+    public List<BookVO> removeBook(int bookId){
+        for (BookVO bookVO:getBooks()){
+            if (bookVO.getBookId() == bookId){
+                getBooks().remove(bookVO);
+            }
+        }
+        return getBooks();
     }
 
     public List<BookVO> getBooks() {
